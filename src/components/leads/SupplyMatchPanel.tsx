@@ -38,7 +38,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useSettings } from "@/myt/lib/settings-context";
 import { useAutomation } from "@/lib/automation";
-import type { MatchV2 } from "@/lib/matcher-v2";
+import { runMatcherV2, type MatchV2 } from "@/lib/matcher-v2";
 import { toast } from "sonner";
 import { buildPdfShareMessage, getPropertyAssets } from "@/lib/property-assets";
 
@@ -57,7 +57,7 @@ export function SupplyMatchPanel({ lead, limit, onNavigateAway }: Props) {
     generateForLead(lead, settings.matching);
   }, [lead, settings.matching, generateForLead]);
 
-  const result = cached ?? generateForLead(lead, settings.matching);
+  const result = cached ?? runMatcherV2(lead, settings.matching);
   const [expandedIds, setExpandedIds] = useState<Record<string, boolean>>({});
   const [showSecondary, setShowSecondary] = useState(false);
   const [transitMode, setTransitMode] = useState<"2-wheeler" | "cab" | "metro">("2-wheeler");
